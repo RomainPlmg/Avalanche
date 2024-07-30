@@ -1,6 +1,10 @@
 project(Sandbox)
 
-add_definitions(-DAVL_PLATFORM_WINDOWS)
+if (WIN32)
+    add_definitions(-DAVL_PLATFORM_WINDOWS)
+elseif(UNIX)
+    add_definitions(-DAVL_PLATFORM_UNIX)
+endif (WIN32)
 
 file(GLOB_RECURSE SRC
      "src/*.h"

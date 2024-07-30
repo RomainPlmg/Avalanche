@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef AVL_PLATFORM_WINDOWS
-
 extern AVL::Application* AVL::CreateApplication();
 
 int main(int argc, char** argv) {
@@ -16,4 +14,3 @@ int main(int argc, char** argv) {
 
 	return 0;
 }
-#endif
