@@ -5,7 +5,7 @@
 #define AVL_API __declspec(dllexport)
 #else
 #define AVL_API __declspec(dllimport)
-#endif
+#endif // AVL_BUILD_DLL
 #else
 #error Avalanche only support Window
-#endif
+#endif // AVL_PLATFORM_WINDOWS
