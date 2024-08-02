@@ -23,11 +23,11 @@ namespace AVL {
 #define AVL_CORE_INFO(...)	::AVL::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define AVL_CORE_WARN(...)	::AVL::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define AVL_CORE_ERROR(...)	::AVL::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define AVL_CORE_FATAL(...)	{::AVL::Log::GetCoreLogger()->critical(__VA_ARGS__); exit(1);}
+#define AVL_CORE_FATAL(...)	{ ::AVL::Log::GetCoreLogger()->critical(__VA_ARGS__); AVL_DEBUGBREAK; }
 
 // Client log macros
 #define AVL_TRACE(...)		::AVL::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define AVL_INFO(...)		::AVL::Log::GetClientLogger()->info(__VA_ARGS__)
 #define AVL_WARN(...)		::AVL::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define AVL_ERROR(...)		::AVL::Log::GetClientLogger()->error(__VA_ARGS__)
-#define AVL_FATAL(...)		{::AVL::Log::GetClientLogger()->critical(__VA_ARGS__); exit(1);}
+#define AVL_FATAL(...)		{ ::AVL::Log::GetClientLogger()->critical(__VA_ARGS__); AVL_DEBUGBREAK; }
