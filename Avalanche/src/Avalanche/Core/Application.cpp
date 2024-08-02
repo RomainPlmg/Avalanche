@@ -7,7 +7,7 @@
 
 namespace AVL {
     Application::Application() : m_Window(nullptr) {
-        m_Window = std::make_unique<Window>();
+        m_Window = std::make_unique<LinuxWindow>();
     }
 
     Application::~Application() {
@@ -15,8 +15,7 @@ namespace AVL {
 
     void Application::Run() {
         Event::KeyPressed e(KeyCode::F1);
-        Log::GetClientLogger()->trace(e);
-        // std::cout << e << std::endl;
+        AVL_TRACE(e.ToString());
         while (!m_Window->ShouldClose()) {
             m_Window->Update();
         }

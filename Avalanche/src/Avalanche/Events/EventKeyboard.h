@@ -4,8 +4,7 @@
 #include "Avalanche/Core/KeyCodes.h"
 
 namespace AVL::Event {
-    template<typename Action>
-    class KeyEvent : public Event<Action> {
+    class KeyEvent : public Event {
     public:
         ~KeyEvent() override = default;
 
@@ -19,7 +18,7 @@ namespace AVL::Event {
         KeyCode m_KeyCode;
     };
 
-    class KeyPressed final : public KeyEvent<KeyPressed> {
+    class KeyPressed final : public KeyEvent {
     public:
         explicit KeyPressed(const KeyCode keycode, const bool isRepeat = false) : KeyEvent(keycode),
             m_IsRepeat(isRepeat) {
@@ -29,15 +28,17 @@ namespace AVL::Event {
 
         [[nodiscard]] std::string ToString() const override {
             std::stringstream ss;
-            ss << "KeyPressed: " << m_KeyCode << " (repeat = " << m_IsRepeat << ")";
+            ss << "KeyPressed: " << KeyNames[m_KeyCode] << " (repeat = " << m_IsRepeat << ")";
             return ss.str();
         }
+
+        EVENT_CLASS_TYPE(KeyPressed)
 
     private:
         bool m_IsRepeat;
     };
 
-    class KeyReleased final : public KeyEvent<KeyReleased> {
+    class KeyReleased final : public KeyEvent {
     public:
         explicit KeyReleased(const KeyCode keycode) : KeyEvent(keycode) {
         }

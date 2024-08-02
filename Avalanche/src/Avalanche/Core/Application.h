@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core.h"
-#include "Window.h"
+#include "Platforms/LinuxWindow.h"
 
 namespace AVL {
     class AVL_API Application {
@@ -13,7 +13,7 @@ namespace AVL {
         void Run();
 
     private:
-        std::unique_ptr<Window> m_Window;
+        std::unique_ptr<LinuxWindow> m_Window;
     };
 
     // To be defined by the client

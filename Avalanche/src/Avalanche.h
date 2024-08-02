@@ -2,9 +2,9 @@
 
 // For use by Avalanche applications
 
-#include "Avalanche/Application.h"
-#include "Avalanche/Log.h"
+#include "Avalanche/Core/Application.h"
+#include "Avalanche/Core/Log.h"
 
 // -- Entry Point ---------------------------------------
-#include "Avalanche/EntryPoint.h"
+#include "Avalanche/Core/EntryPoint.h"
 // ------------------------------------------------------

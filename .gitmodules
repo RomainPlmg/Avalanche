@@ -1,3 +1,6 @@
 [submodule "Avalanche/vendor/spdlog"]
 	path = Avalanche/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Avalanche/vendor/GLFW"]
+	path = Avalanche/vendor/GLFW
+	url = https://github.com/glfw/glfw.git

@@ -1,6 +1,14 @@
 #pragma once
 
 namespace AVL::Event {
+    enum class EventType {
+        None = 0,
+        WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
+        AppTick, AppUpdate, AppRender,
+        KeyPressed, KeyReleased, KeyTyped,
+        MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+    };
+
     /* Use of bit shift operations because an event can be in multiple categories */
     enum EventCategory {
         None = 0,
@@ -11,22 +19,30 @@ namespace AVL::Event {
         EventCategoryMouseButton = 1 << 4
     };
 
+#define EVENT_CLASS_TYPE(type)  static EventType GetStaticType() { return EventType::type; }\
+                                virtual EventType GetEventType() const override { return GetStaticType(); }\
+                                virtual const char* GetName() const override { return #type; }
+
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 
     /* Will be inherited */
-    template<typename EventType>
     class Event {
     public:
         virtual ~Event() = default;
+
         [[nodiscard]] virtual int GetCategoryFlags() const = 0;
 
-        static inline std::string GetType() { return typeid(EventType).name(); }
+        [[nodiscard]] virtual EventType GetEventType() const = 0;
+
+        [[nodiscard]] virtual const char *GetName() const = 0;
 
         [[nodiscard]] virtual std::string ToString() const = 0;
 
-        static inline bool IsInCategory(const EventCategory &category) { return GetCategoryFlags() & category; }
-            
+        [[nodiscard]] inline bool IsInCategory(const EventCategory &category) const {
+            return GetCategoryFlags() & category;
+        }
+
         friend std::ostream &operator<<(std::ostream &os, const Event &e) {
             return os << e.ToString();
         }
