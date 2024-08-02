@@ -8,8 +8,10 @@ endif (WIN32)
 add_definitions(-DAVL_BUILD_DLL)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-DAVL_DEBUG)
+    add_definitions(-DAVL_DEBUG -DAVL_ENABLE_ASSERTS)
 endif ()
+
+find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE SRC
         "src/*.h"
@@ -29,4 +31,4 @@ target_include_directories(Avalanche PUBLIC
         ${CMAKE_SOURCE_DIR}/Avalanche/vendor/spdlog/include/
         ${CMAKE_SOURCE_DIR}/Avalanche/vendor/GLFW/include/
 )
-target_link_libraries(Avalanche PRIVATE glfw)
+target_link_libraries(Avalanche PRIVATE ${OPENGL_LIBRARY} glfw)

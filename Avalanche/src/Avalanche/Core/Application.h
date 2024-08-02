@@ -13,7 +13,7 @@ namespace AVL {
         void Run();
 
     private:
-        std::unique_ptr<LinuxWindow> m_Window;
+        std::unique_ptr<Window> m_Window;
     };
 
     // To be defined by the client

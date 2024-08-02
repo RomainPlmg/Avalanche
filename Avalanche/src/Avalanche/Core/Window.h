@@ -1,10 +1,9 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-
+#include "Core.h"
+#include "Avalanche/Events/Event.h"
 
 namespace AVL {
-
     struct WindowProps {
         std::string title;
         uint32_t width;
@@ -15,18 +14,32 @@ namespace AVL {
                              uint32_t height = 900);
     };
 
-    class Window {
+    class AVL_API Window {
     public:
-        explicit Window(const WindowProps &props = WindowProps());
+        using EventCallbackFn = std::function<void(const Event::Event &)>;
 
-        bool ShouldClose() const;
-        void Update();
-        void Shutdown();
+        virtual ~Window() = default;
 
-        [[nodiscard]] inline GLFWwindow *GetHandler() const { return m_Handler; }
+        virtual void Update() = 0;
 
-    private:
-        GLFWwindow *m_Handler;
+
+        /* Window attributes */
+        [[nodiscard]] virtual uint32_t GetWidth() const = 0;
+
+        [[nodiscard]] virtual uint32_t GetHeight() const = 0;
+
+        [[nodiscard]] virtual bool IsVSync() const = 0;
+
+        virtual void SetEventCallback(const EventCallbackFn &callback) = 0;
+
+        virtual void SetVSync(bool enable) = 0;
+
+        [[nodiscard]] virtual bool ShouldClose() const = 0;
+
+        virtual void Shutdown() = 0;
+
+
+        /* Return pointer on the specific platform window */
+        static Window *Create(const WindowProps &props = WindowProps());
     };
-
 }
