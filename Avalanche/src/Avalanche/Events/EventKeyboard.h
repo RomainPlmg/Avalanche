@@ -27,8 +27,14 @@ namespace AVL::Event {
 
         [[nodiscard]] std::string ToString() const override {
             std::stringstream ss;
-            ss << "KeyPressed: " << KeyNames.at(m_KeyCode) << " (repeat = " << m_IsRepeat << ")";
+            if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
+                ss << "KeyPressed: Unknown key code (" << m_KeyCode << ") (repeat = " << m_IsRepeat << ")";
+            } else {
+                ss << "KeyPressed: " << KeyNames.at(m_KeyCode) << " (repeat = " << m_IsRepeat << ")";
+            }
+
             return ss.str();
+            
         }
 
         EVENT_CLASS_TYPE(KeyPressed)
@@ -44,7 +50,12 @@ namespace AVL::Event {
 
         [[nodiscard]] std::string ToString() const override {
             std::stringstream ss;
-            ss << "KeyReleased: " << KeyNames.at(m_KeyCode);
+            if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
+                ss << "KeyReleased: Unknown key code (" << m_KeyCode << ")";
+            } else {
+                ss << "KeyReleased: " << KeyNames.at(m_KeyCode);
+            }
+            
             return ss.str();
         }
 
