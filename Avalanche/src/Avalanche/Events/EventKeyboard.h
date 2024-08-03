@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Event.h"
-#include "Avalanche/Core/KeyCodes.h"
 
 namespace AVL::Event {
     class KeyEvent : public Event {
@@ -28,7 +27,7 @@ namespace AVL::Event {
 
         [[nodiscard]] std::string ToString() const override {
             std::stringstream ss;
-            ss << "KeyPressed: " << KeyNames[m_KeyCode] << " (repeat = " << m_IsRepeat << ")";
+            ss << "KeyPressed: " << KeyNames.at(m_KeyCode) << " (repeat = " << m_IsRepeat << ")";
             return ss.str();
         }
 
@@ -45,8 +44,10 @@ namespace AVL::Event {
 
         [[nodiscard]] std::string ToString() const override {
             std::stringstream ss;
-            ss << "KeyReleased: " << m_KeyCode;
+            ss << "KeyReleased: " << KeyNames.at(m_KeyCode);
             return ss.str();
         }
+
+        EVENT_CLASS_TYPE(KeyReleased)
     };
 }

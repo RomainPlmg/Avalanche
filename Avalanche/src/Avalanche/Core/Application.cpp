@@ -5,21 +5,19 @@
 
 namespace AVL {
     Application::Application() : m_Window(nullptr) {
-        m_Window = std::unique_ptr<Window>(Window::Create());
-    }
-
-    Application::~Application() {
+        m_Dispatcher = std::make_shared<Event::EventDispatcher>();
+        m_Window = std::unique_ptr<Window>(Window::Create(*m_Dispatcher));
     }
 
     void Application::Run() {
-        Event::KeyPressed e(KeyCode::F1);
-        AVL_TRACE(e.ToString());
-
+        Listener l;
+        m_Dispatcher->Subscribe(&l);
         while (!m_Window->ShouldClose()) {
             glClearColor(1, 0, 0, 1);
             glClear(GL_COLOR_BUFFER_BIT);
             m_Window->Update();
         }
+        m_Dispatcher->Unsubscribe(&l);
         m_Window->Shutdown();
     }
 }

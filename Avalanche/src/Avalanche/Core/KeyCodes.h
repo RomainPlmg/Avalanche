@@ -107,7 +107,7 @@ namespace AVL {
         RightCtrl       = 163
     };
 
-    std::map<KeyCode, std::string> KeyNames {
+    const std::map<KeyCode, std::string> KeyNames {
         std::make_pair(Backspace    , "Backspace"),
         std::make_pair(Tab          ,"Tab"),
         std::make_pair(Enter        ,"Enter"),

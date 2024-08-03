@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Core.h"
-#include "Avalanche/Events/Event.h"
+#include "Avalanche/Events/EventDispatcher.h"
 
 namespace AVL {
     struct WindowProps {
@@ -16,7 +15,7 @@ namespace AVL {
 
     class AVL_API Window {
     public:
-        using EventCallbackFn = std::function<void(const Event::Event &)>;
+        Window(Event::EventDispatcher& dispatcher);
 
         virtual ~Window() = default;
 
@@ -30,8 +29,6 @@ namespace AVL {
 
         [[nodiscard]] virtual bool IsVSync() const = 0;
 
-        virtual void SetEventCallback(const EventCallbackFn &callback) = 0;
-
         virtual void SetVSync(bool enable) = 0;
 
         [[nodiscard]] virtual bool ShouldClose() const = 0;
@@ -40,6 +37,9 @@ namespace AVL {
 
 
         /* Return pointer on the specific platform window */
-        static Window *Create(const WindowProps &props = WindowProps());
+        static Window *Create(Event::EventDispatcher& eventDispatcher, const WindowProps &props = WindowProps());
+
+    protected:
+        std::shared_ptr<Event::EventDispatcher> m_Dispatcher;
     };
 }
