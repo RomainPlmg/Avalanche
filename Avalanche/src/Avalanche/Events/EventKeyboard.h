@@ -3,62 +3,60 @@
 #include "Event.h"
 
 namespace AVL::Event {
-    class KeyEvent : public Event {
-    public:
-        ~KeyEvent() override = default;
+class KeyEvent : public Event {
+   public:
+    ~KeyEvent() override = default;
 
-        [[nodiscard]] inline KeyCode GetKeyCode() const { return m_KeyCode; }
-        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
+    [[nodiscard]] inline KeyCode GetKeyCode() const { return m_KeyCode; }
+    EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
-    protected:
-        explicit KeyEvent(const KeyCode keycode) : m_KeyCode(keycode) {
+   protected:
+    explicit KeyEvent(const KeyCode keycode) : m_KeyCode(keycode) {}
+
+    KeyCode m_KeyCode;
+};
+
+class KeyPressed final : public KeyEvent {
+   public:
+    explicit KeyPressed(const KeyCode keycode, const bool isRepeat = false)
+        : KeyEvent(keycode), m_IsRepeat(isRepeat) {}
+
+    [[nodiscard]] inline bool IsRepeat() const { return m_IsRepeat; }
+
+    [[nodiscard]] std::string ToString() const override {
+        std::stringstream ss;
+        if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
+            ss << "KeyPressed: Unknown key code (" << m_KeyCode
+               << ") (repeat = " << m_IsRepeat << ")";
+        } else {
+            ss << "KeyPressed: " << KeyNames.at(m_KeyCode)
+               << " (repeat = " << m_IsRepeat << ")";
         }
 
-        KeyCode m_KeyCode;
-    };
+        return ss.str();
+    }
 
-    class KeyPressed final : public KeyEvent {
-    public:
-        explicit KeyPressed(const KeyCode keycode, const bool isRepeat = false) : KeyEvent(keycode),
-            m_IsRepeat(isRepeat) {
+    EVENT_CLASS_TYPE(KeyPressed)
+
+   private:
+    bool m_IsRepeat;
+};
+
+class KeyReleased final : public KeyEvent {
+   public:
+    explicit KeyReleased(const KeyCode keycode) : KeyEvent(keycode) {}
+
+    [[nodiscard]] std::string ToString() const override {
+        std::stringstream ss;
+        if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
+            ss << "KeyReleased: Unknown key code (" << m_KeyCode << ")";
+        } else {
+            ss << "KeyReleased: " << KeyNames.at(m_KeyCode);
         }
 
-        [[nodiscard]] inline bool IsRepeat() const { return m_IsRepeat; }
+        return ss.str();
+    }
 
-        [[nodiscard]] std::string ToString() const override {
-            std::stringstream ss;
-            if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
-                ss << "KeyPressed: Unknown key code (" << m_KeyCode << ") (repeat = " << m_IsRepeat << ")";
-            } else {
-                ss << "KeyPressed: " << KeyNames.at(m_KeyCode) << " (repeat = " << m_IsRepeat << ")";
-            }
-
-            return ss.str();
-            
-        }
-
-        EVENT_CLASS_TYPE(KeyPressed)
-
-    private:
-        bool m_IsRepeat;
-    };
-
-    class KeyReleased final : public KeyEvent {
-    public:
-        explicit KeyReleased(const KeyCode keycode) : KeyEvent(keycode) {
-        }
-
-        [[nodiscard]] std::string ToString() const override {
-            std::stringstream ss;
-            if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
-                ss << "KeyReleased: Unknown key code (" << m_KeyCode << ")";
-            } else {
-                ss << "KeyReleased: " << KeyNames.at(m_KeyCode);
-            }
-            
-            return ss.str();
-        }
-
-        EVENT_CLASS_TYPE(KeyReleased)
-    };
-}
+    EVENT_CLASS_TYPE(KeyReleased)
+};
+}  // namespace AVL::Event

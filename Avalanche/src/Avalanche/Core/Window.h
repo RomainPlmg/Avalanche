@@ -15,8 +15,6 @@ namespace AVL {
 
     class AVL_API Window {
     public:
-        Window(Event::EventDispatcher& dispatcher);
-
         virtual ~Window() = default;
 
         virtual void Update() = 0;
@@ -37,9 +35,9 @@ namespace AVL {
 
 
         /* Return pointer on the specific platform window */
-        static Window *Create(Event::EventDispatcher& eventDispatcher, const WindowProps &props = WindowProps());
+        static Window *Create(const WindowProps &props = WindowProps());
 
     protected:
-        std::shared_ptr<Event::EventDispatcher> m_Dispatcher;
+        // std::shared_ptr<Event::EventDispatcher> m_Dispatcher;
     };
 }

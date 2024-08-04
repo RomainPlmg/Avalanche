@@ -1,5 +1,3 @@
 #include "WindowsWindow.h"
 
-namespace AVL {
-
-}
+namespace AVL {}
