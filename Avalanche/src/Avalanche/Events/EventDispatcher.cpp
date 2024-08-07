@@ -1,22 +1,37 @@
 #include "EventDispatcher.h"
 
-namespace AVL::Event {
+namespace AVL {
+EventDispatcher* EventDispatcher::m_EventDispatcher = nullptr;
 
-// void EventDispatcher::Subscribe(EventListener *listener) {
-//     m_Listeners.push_back(listener);
-// }
+[[maybe_unused]] EventDispatcher* EventDispatcher::GetInstance() {
+    if (m_EventDispatcher == nullptr) {
+        m_EventDispatcher = new EventDispatcher();
+    }
+    return m_EventDispatcher;
+}
 
-// void EventDispatcher::Unsubscribe(EventListener *listener) {
-//     m_Listeners.erase(
-//             std::remove(m_Listeners.begin(), m_Listeners.end(), listener),
-//             m_Listeners.end()
-//     );
-// }
+void EventDispatcher::Subscribe(EventCategory category, const Listener& listener) {
+    m_Listeners[category].push_back(listener);
+}
 
-// void EventDispatcher::Dispatch(Event &event) {
-//     for (const auto &listener: m_Listeners) {
-//         listener->OnEvent(event);
-//     }
-// }
+void EventDispatcher::Unsubscribe(EventCategory category, const Listener& listener) {
+    auto& listeners = m_Listeners[category];
+    for (auto it = listeners.begin(); it != listeners.end(); ++it) {
+        if (it->target_type() == listener.target_type() && it->target<void()>() == listener.target<void>()) {
+            listeners.erase(it);
+            break;
+        }
+    }
+}
 
-}  // namespace AVL::Event
+void EventDispatcher::Dispatch(Event& event) {
+    for (const auto& listeners : m_Listeners) {
+        if (event.IsInCategory(listeners.first)) {
+            for (const auto& listener : listeners.second) {
+                listener(event);
+            }
+        }
+    }
+}
+
+}  // namespace AVL

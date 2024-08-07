@@ -2,12 +2,10 @@
 
 #include "Event.h"
 
-namespace AVL::Event {
+namespace AVL {
 class KeyEvent : public Event {
    public:
-    ~KeyEvent() override = default;
-
-    [[nodiscard]] inline KeyCode GetKeyCode() const { return m_KeyCode; }
+    [[nodiscard]] const KeyCode GetKeyCode() const { return m_KeyCode; }
     EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
    protected:
@@ -16,9 +14,9 @@ class KeyEvent : public Event {
     KeyCode m_KeyCode;
 };
 
-class KeyPressed final : public KeyEvent {
+class KeyPressedEvent final : public KeyEvent {
    public:
-    explicit KeyPressed(const KeyCode keycode, const bool isRepeat = false)
+    explicit KeyPressedEvent(const KeyCode keycode, const bool isRepeat = false)
         : KeyEvent(keycode), m_IsRepeat(isRepeat) {}
 
     [[nodiscard]] inline bool IsRepeat() const { return m_IsRepeat; }
@@ -26,25 +24,23 @@ class KeyPressed final : public KeyEvent {
     [[nodiscard]] std::string ToString() const override {
         std::stringstream ss;
         if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
-            ss << "KeyPressed: Unknown key code (" << m_KeyCode
-               << ") (repeat = " << m_IsRepeat << ")";
+            ss << "KeyPressed: Unknown key code (" << m_KeyCode << ") (repeat = " << m_IsRepeat << ")";
         } else {
-            ss << "KeyPressed: " << KeyNames.at(m_KeyCode)
-               << " (repeat = " << m_IsRepeat << ")";
+            ss << "KeyPressed: " << KeyNames.at(m_KeyCode) << " (repeat = " << m_IsRepeat << ")";
         }
 
         return ss.str();
     }
 
-    EVENT_CLASS_TYPE(KeyPressed)
+    EVENT_CLASS_TYPE(EventType::KeyPressed)
 
    private:
     bool m_IsRepeat;
 };
 
-class KeyReleased final : public KeyEvent {
+class KeyReleasedEvent final : public KeyEvent {
    public:
-    explicit KeyReleased(const KeyCode keycode) : KeyEvent(keycode) {}
+    explicit KeyReleasedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
 
     [[nodiscard]] std::string ToString() const override {
         std::stringstream ss;
@@ -57,6 +53,6 @@ class KeyReleased final : public KeyEvent {
         return ss.str();
     }
 
-    EVENT_CLASS_TYPE(KeyReleased)
+    EVENT_CLASS_TYPE(EventType::KeyReleased)
 };
-}  // namespace AVL::Event
+}  // namespace AVL

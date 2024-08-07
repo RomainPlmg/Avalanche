@@ -1,17 +1,18 @@
 #pragma once
 
 #include <algorithm>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <typeinfo>
-#include <string>
 #include <cstdint>
 #include <functional>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <typeinfo>
 #include <unordered_map>
 #include <vector>
-#include <sstream>
-#include <map>
+
+#include <spdlog/spdlog.h>
 
 #include "Avalanche/Core/Core.h"
 #include "Avalanche/Core/KeyCodes.h"

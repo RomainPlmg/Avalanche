@@ -2,16 +2,26 @@
 
 #include "Event.h"
 
-namespace AVL::Event {
-template <typename T>
+namespace AVL {
 class EventDispatcher {
-   private:
    public:
-    // void Subscribe(EventListener* eventListener); // Add a listener to a
-    // specific event type void Unsubscribe(EventListener* eventListener); //
-    // Delete a listener to a specific event type void Dispatch(Event &event);
-    // // Push an event on the bus
+    EventDispatcher(EventDispatcher& other) = delete;
+    void operator=(const EventDispatcher&) = delete;
+
+    [[maybe_unused]] static EventDispatcher* GetInstance();
+
+    using Listener = std::function<void(const Event&)>;
+
+    // Add a listener to a specific event category
+    void Subscribe(EventCategory category, const Listener& listener);
+    // Delete a listener to a specific event category
+    void Unsubscribe(EventCategory category, const Listener& listener);
+    // Push an event on the bus
+    void Dispatch(Event& event);
+
    private:
-    // std::vector<EventListener*> m_Listeners;
+    EventDispatcher() = default;
+    static EventDispatcher* m_EventDispatcher;
+    std::unordered_map<EventCategory, std::vector<Listener>> m_Listeners;
 };
-}  // namespace AVL::Event
+}  // namespace AVL

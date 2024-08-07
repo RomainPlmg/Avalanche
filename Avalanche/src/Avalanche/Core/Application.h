@@ -9,12 +9,12 @@ class AVL_API Application {
     Application();
 
     void Run();
+    void OnEvent(const Event& event);
 
    private:
     std::unique_ptr<Window> m_Window;
-    // std::shared_ptr<Event::EventDispatcher> m_Dispatcher;
 };
 
 // To be defined by the client
-Application *CreateApplication();
+Application* CreateApplication();
 }  // namespace AVL

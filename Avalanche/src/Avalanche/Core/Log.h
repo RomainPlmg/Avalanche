@@ -1,18 +1,12 @@
 #pragma once
 
-#include <spdlog/spdlog.h>
-
 namespace AVL {
 class AVL_API Log {
    public:
     static void Init();
 
-    inline static std::shared_ptr<spdlog::logger> &GetCoreLogger() {
-        return m_CoreLogger;
-    }
-    inline static std::shared_ptr<spdlog::logger> &GetClientLogger() {
-        return m_ClientLogger;
-    }
+    inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return m_CoreLogger; }
+    inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return m_ClientLogger; }
 
    private:
     static std::shared_ptr<spdlog::logger> m_CoreLogger;

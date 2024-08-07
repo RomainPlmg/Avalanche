@@ -1,19 +1,27 @@
 #pragma once
 
-namespace AVL::Event {
+namespace AVL {
 enum class EventType {
     None = 0,
+
+    /* Window events */
     WindowClose,
     WindowResize,
     WindowFocus,
     WindowLostFocus,
     WindowMoved,
+
+    /* Application events*/
     AppTick,
     AppUpdate,
     AppRender,
+
+    /* Keyboard events */
     KeyPressed,
     KeyReleased,
     KeyTyped,
+
+    /* Mouse events */
     MouseButtonPressed,
     MouseButtonReleased,
     MouseMoved,
@@ -30,38 +38,34 @@ enum EventCategory {
     EventCategoryMouseButton = 1 << 4
 };
 
-#define EVENT_CLASS_TYPE(type)                                             \
-    static EventType GetStaticType() { return EventType::type; }           \
-    virtual EventType GetType() const override { return GetStaticType(); } \
-    virtual const char *GetName() const override { return #type; }
+#define EVENT_CLASS_TYPE(type)                     \
+    virtual EventType GetType() const override {   \
+        return type;                               \
+    }                                              \
+    virtual const char* GetName() const override { \
+        return #type;                              \
+    }
 
-#define EVENT_CLASS_CATEGORY(category) \
-    virtual int GetCategoryFlags() const override { return category; }
+#define EVENT_CLASS_CATEGORY(category)              \
+    virtual int GetCategoryFlags() const override { \
+        return category;                            \
+    }
 
-/* Will be inherited */
-class Event {
+/* Pure virtual class, will be inherited */
+class AVL_API Event {
    public:
-    virtual ~Event() = default;
-
     [[nodiscard]] virtual int GetCategoryFlags() const = 0;
 
     [[nodiscard]] virtual EventType GetType() const = 0;
 
-    [[nodiscard]] virtual const char *GetName() const = 0;
+    [[nodiscard]] virtual const char* GetName() const = 0;
 
     [[nodiscard]] virtual std::string ToString() const = 0;
 
-    [[nodiscard]] inline bool IsInCategory(
-        const EventCategory &category) const {
+    [[nodiscard]] inline bool IsInCategory(const EventCategory& category) const {
         return GetCategoryFlags() & category;
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const Event &e) {
-        return os << e.ToString();
-    }
+    friend std::ostream& operator<<(std::ostream& os, const Event& e) { return os << e.ToString(); }
 };
-}  // namespace AVL::Event
-
-#include "EventApplication.h"
-#include "EventDispatcher.h"
-#include "EventKeyboard.h"
+}  // namespace AVL

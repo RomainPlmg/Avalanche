@@ -1,21 +1,19 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-
 #include "Event.h"
 
-namespace AVL::Event {
+namespace AVL {
 class ApplicationEvent : public Event {
     EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
 
-class WindowResize : public ApplicationEvent {
+class WindowResizeEvent final : public ApplicationEvent {
    public:
     int width, height;
 
-    WindowResize(int width, int height) : width(width), height(height) {}
+    WindowResizeEvent(int width, int height) : width(width), height(height) {}
 
-    EVENT_CLASS_TYPE(WindowResize)
+    EVENT_CLASS_TYPE(EventType::WindowResize)
 
     [[nodiscard]] std::string ToString() const override {
         std::stringstream ss;
@@ -24,11 +22,9 @@ class WindowResize : public ApplicationEvent {
     }
 };
 
-class WindowClose : public ApplicationEvent {
+class WindowCloseEvent final : public ApplicationEvent {
    public:
-    explicit WindowClose(GLFWwindow *window) { glfwDestroyWindow(window); }
-
-    EVENT_CLASS_TYPE(WindowClose)
+    EVENT_CLASS_TYPE(EventType::WindowClose)
 
     [[nodiscard]] std::string ToString() const override {
         std::stringstream ss;
@@ -36,4 +32,4 @@ class WindowClose : public ApplicationEvent {
         return ss.str();
     }
 };
-}  // namespace AVL::Event
+}  // namespace AVL
