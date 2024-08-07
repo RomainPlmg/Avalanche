@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Avalanche/Events/EventApplication.h"
 #include "Avalanche/Events/EventKeyboard.h"
+#include "Avalanche/Events/EventMouse.h"
 #include "Log.h"
 
 namespace AVL {
@@ -18,14 +19,6 @@ void Application::Run() {
 }
 
 void Application::OnEvent(const Event& event) {
-    if (event.GetType() == EventType::KeyPressed) {
-        const auto& e = dynamic_cast<const KeyPressedEvent&>(event);
-        if (e.GetKeyCode() == KeyCode::Esc) {
-            WindowCloseEvent wce;
-            EventDispatcher::GetInstance()->Dispatch(wce);
-        }
-    }
-
     AVL_CORE_TRACE(event.ToString());
 }
 }  // namespace AVL

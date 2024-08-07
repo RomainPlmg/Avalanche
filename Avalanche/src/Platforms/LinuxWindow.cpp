@@ -3,6 +3,7 @@
 #include "Avalanche/Core/Log.h"
 #include "Avalanche/Events/EventApplication.h"
 #include "Avalanche/Events/EventKeyboard.h"
+#include "Avalanche/Events/EventMouse.h"
 
 namespace AVL {
 
@@ -34,6 +35,7 @@ void LinuxWindow::Init(const WindowProps& props) {
     glfwSetWindowUserPointer(m_Handler, this);
     glfwSetFramebufferSizeCallback(m_Handler, framebuffer_size_callback);
     glfwSetKeyCallback(m_Handler, key_callback);
+    glfwSetCursorPosCallback(m_Handler, mouse_cursor_pos_callback);
     SetVSync(true);
 }
 
@@ -89,5 +91,10 @@ void LinuxWindow::key_callback(GLFWwindow* window, int key, int scancode, int ac
         default:
             break;
     }
+}
+
+void LinuxWindow::mouse_cursor_pos_callback(GLFWwindow* window, double xpos, double ypos) {
+    MouseMotionEvent event(xpos, ypos);
+    EventDispatcher::GetInstance()->Dispatch(event);
 }
 }  // namespace AVL
