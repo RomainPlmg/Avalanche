@@ -39,6 +39,8 @@
 #endif
 #else
 #define AVL_DEBUGBREAK
+#define AVL_CORE_ASSERT(x, ...)
+#define AVL_ASSERT(x, ...)
 #endif
 
 #define AVL_BIND_EVENT_FN(fn)                                   \
