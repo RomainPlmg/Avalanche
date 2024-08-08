@@ -1,6 +1,6 @@
 #include "Window.h"
 
-#include "Avalanche/Events/EventApplication.h"
+#include "Avalanche/Events/Event.h"
 #include "Log.h"
 
 namespace AVL {

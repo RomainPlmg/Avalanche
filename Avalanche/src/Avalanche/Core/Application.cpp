@@ -1,7 +1,5 @@
 #include "Application.h"
-#include "Avalanche/Events/EventApplication.h"
-#include "Avalanche/Events/EventKeyboard.h"
-#include "Avalanche/Events/EventMouse.h"
+#include "Avalanche/Events/Event.h"
 #include "Log.h"
 
 namespace AVL {

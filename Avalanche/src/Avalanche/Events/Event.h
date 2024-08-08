@@ -69,3 +69,8 @@ class AVL_API Event {
     friend std::ostream& operator<<(std::ostream& os, const Event& e) { return os << e.ToString(); }
 };
 }  // namespace AVL
+
+#include "EventApplication.h"
+#include "EventDispatcher.h"
+#include "EventKeyboard.h"
+#include "EventMouse.h"
