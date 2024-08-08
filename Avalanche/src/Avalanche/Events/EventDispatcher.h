@@ -8,6 +8,8 @@ class EventDispatcher {
     EventDispatcher(EventDispatcher& other) = delete;
     void operator=(const EventDispatcher&) = delete;
 
+    ~EventDispatcher();
+
     [[maybe_unused]] static EventDispatcher* GetInstance();
 
     using Listener = std::function<void(const Event&)>;

@@ -3,6 +3,10 @@
 namespace AVL {
 EventDispatcher* EventDispatcher::m_EventDispatcher = nullptr;
 
+EventDispatcher::~EventDispatcher() {
+    m_Listeners.clear();
+}
+
 [[maybe_unused]] EventDispatcher* EventDispatcher::GetInstance() {
     if (m_EventDispatcher == nullptr) {
         m_EventDispatcher = new EventDispatcher();
