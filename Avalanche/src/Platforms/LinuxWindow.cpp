@@ -35,6 +35,8 @@ void LinuxWindow::Init(const WindowProps& props) {
     glfwSetKeyCallback(m_Handler, key_callback);
     glfwSetCursorPosCallback(m_Handler, mouse_cursor_pos_callback);
     SetVSync(true);
+
+    AVL_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD. Abort.")
 }
 
 void LinuxWindow::Update() {

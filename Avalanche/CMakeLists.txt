@@ -1,4 +1,4 @@
-project(Avalanche)
+project(Avalanche LANGUAGES C CXX)
 
 if (WIN32)
     add_definitions(-DAVL_PLATFORM_WINDOWS)
@@ -19,6 +19,8 @@ file(GLOB_RECURSE SRC
         "src/*.c"
 )
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/Avalanche/vendor/glad)
+
 # Add GLFW to the project
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "GLFW lib only")
 set(GLFW_INSTALL OFF CACHE BOOL "GLFW lib only")
@@ -30,5 +32,6 @@ target_include_directories(Avalanche PUBLIC
         ${CMAKE_SOURCE_DIR}/Avalanche/src/
         ${CMAKE_SOURCE_DIR}/Avalanche/vendor/spdlog/include/
         ${CMAKE_SOURCE_DIR}/Avalanche/vendor/GLFW/include/
+        ${CMAKE_SOURCE_DIR}/Avalanche/vendor/glad/include/
 )
-target_link_libraries(Avalanche PRIVATE ${OPENGL_LIBRARY} glfw)
+target_link_libraries(Avalanche PRIVATE ${OPENGL_LIBRARY} glfw glad)
