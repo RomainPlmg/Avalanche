@@ -23,9 +23,9 @@ class MouseMotionEvent : public MouseEvent {
     EVENT_CLASS_TYPE(EventType::MouseMoved)
 };
 
-class MouseButtonEvent : public MouseEvent {
+class MouseButtonPressedEvent : public MouseEvent {
    public:
-    MouseButtonEvent(int button) : button(button) {}
+    MouseButtonPressedEvent(int button) : button(button) {}
 
     int button;
 
@@ -36,5 +36,20 @@ class MouseButtonEvent : public MouseEvent {
     }
 
     EVENT_CLASS_TYPE(EventType::MouseButtonPressed)
+};
+
+class MouseButtonReleasedEvent : public MouseEvent {
+   public:
+    MouseButtonReleasedEvent(int button) : button(button) {}
+
+    int button;
+
+    [[nodiscard]] std::string ToString() const override {
+        std::stringstream ss;
+        ss << "Mouse " << (button == GLFW_MOUSE_BUTTON_LEFT ? "left" : "right") << " click released";
+        return ss.str();
+    }
+
+    EVENT_CLASS_TYPE(EventType::MouseButtonReleased)
 };
 }  // namespace AVL

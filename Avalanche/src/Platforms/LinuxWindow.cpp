@@ -78,23 +78,24 @@ void LinuxWindow::framebuffer_size_callback(GLFWwindow* window, int width, int h
 }
 
 void LinuxWindow::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    std::shared_ptr<KeyEvent> event;
+    KeyEvent* event;
     switch (action) {
         case GLFW_PRESS:
-            event = std::make_shared<KeyPressedEvent>(static_cast<KeyCode>(key));
+            event = new KeyPressedEvent(static_cast<KeyCode>(key));
             EventDispatcher::GetInstance()->Dispatch(*event);
             break;
         case GLFW_REPEAT:
-            event = std::make_shared<KeyPressedEvent>(static_cast<KeyCode>(key), true);
+            event = new KeyPressedEvent(static_cast<KeyCode>(key), true);
             EventDispatcher::GetInstance()->Dispatch(*event);
             break;
         case GLFW_RELEASE:
-            event = std::make_shared<KeyReleasedEvent>(static_cast<KeyCode>(key));
+            event = new KeyReleasedEvent(static_cast<KeyCode>(key));
             EventDispatcher::GetInstance()->Dispatch(*event);
             break;
         default:
             break;
     }
+    delete event;
 }
 
 void LinuxWindow::mouse_cursor_pos_callback(GLFWwindow* window, double xpos, double ypos) {
@@ -103,9 +104,19 @@ void LinuxWindow::mouse_cursor_pos_callback(GLFWwindow* window, double xpos, dou
 }
 
 void LinuxWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
-    if (action == GLFW_PRESS) {
-        MouseButtonEvent event(button);
-        EventDispatcher::GetInstance()->Dispatch(event);
+    MouseEvent* event;
+    switch (action) {
+        case GLFW_PRESS:
+            event = new MouseButtonPressedEvent(button);
+            EventDispatcher::GetInstance()->Dispatch(*event);
+            break;
+        case GLFW_RELEASE:
+            event = new MouseButtonReleasedEvent(button);
+            EventDispatcher::GetInstance()->Dispatch(*event);
+            break;
+        default:
+            break;
     }
+    delete event;
 }
 }  // namespace AVL
