@@ -19,7 +19,11 @@ file(GLOB_RECURSE SRC
         "src/*.c"
 )
 
+# Add GLAD to the project
 add_subdirectory(${CMAKE_SOURCE_DIR}/Avalanche/vendor/glad)
+
+# Add GLM to the project
+add_subdirectory(${CMAKE_SOURCE_DIR}/Avalanche/vendor/GLM)
 
 # Add GLFW to the project
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "GLFW lib only")
@@ -34,4 +38,4 @@ target_include_directories(Avalanche PUBLIC
         ${CMAKE_SOURCE_DIR}/Avalanche/vendor/GLFW/include/
         ${CMAKE_SOURCE_DIR}/Avalanche/vendor/glad/include/
 )
-target_link_libraries(Avalanche PRIVATE ${OPENGL_LIBRARY} glfw glad)
+target_link_libraries(Avalanche PRIVATE ${OPENGL_LIBRARY} glfw glad glm::glm)
