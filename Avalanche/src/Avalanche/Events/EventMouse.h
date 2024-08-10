@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include "Event.h"
 
 namespace AVL {
@@ -31,7 +30,7 @@ class MouseButtonPressedEvent : public MouseEvent {
 
     [[nodiscard]] std::string ToString() const override {
         std::stringstream ss;
-        ss << "Mouse " << (button == GLFW_MOUSE_BUTTON_LEFT ? "left" : "right") << " click";
+        ss << "Mouse " << (button ? "right" : "left") << " click";
         return ss.str();
     }
 
@@ -46,7 +45,7 @@ class MouseButtonReleasedEvent : public MouseEvent {
 
     [[nodiscard]] std::string ToString() const override {
         std::stringstream ss;
-        ss << "Mouse " << (button == GLFW_MOUSE_BUTTON_LEFT ? "left" : "right") << " click released";
+        ss << "Mouse " << (button ? "right" : "left") << " click released";
         return ss.str();
     }
 
