@@ -4,7 +4,7 @@
 
 namespace AVL {
 
-class Layer {
+class AVL_API Layer {
    public:
     Layer(const std::string& name = std::format("Layer_{}", m_LayerNb));
     virtual ~Layer() = default;

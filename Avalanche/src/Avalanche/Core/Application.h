@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Avalanche/Core/Log.h"
+#include "LayerStack.h"
+#include "Log.h"
 #include "Platforms/Linux/LinuxWindow.h"
 
 namespace AVL {
@@ -18,6 +19,7 @@ class AVL_API Application {
    private:
     static Application* m_Instance;
     std::unique_ptr<Window> m_Window;
+    std::unique_ptr<LayerStack> m_LayerStack;
 };
 
 // To be defined by the client

@@ -4,7 +4,7 @@
 
 namespace AVL {
 
-class LayerStack {
+class AVL_API LayerStack {
    public:
     ~LayerStack();
 
