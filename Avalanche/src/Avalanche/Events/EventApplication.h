@@ -15,7 +15,7 @@ class WindowResizeEvent final : public ApplicationEvent {
 
     EVENT_CLASS_TYPE(EventType::WindowResize)
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         ss << "Window resized to: " << width << "x" << height;
         return ss.str();
@@ -26,7 +26,7 @@ class WindowCloseEvent final : public ApplicationEvent {
    public:
     EVENT_CLASS_TYPE(EventType::WindowClose)
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         ss << "Window closed";
         return ss.str();

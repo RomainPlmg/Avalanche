@@ -13,7 +13,7 @@ class MouseMotionEvent : public MouseEvent {
 
     double posX, posY;
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         ss << "Mouse moved at: x=" << posX << " | y=" << posY;
         return ss.str();
@@ -28,7 +28,7 @@ class MouseButtonPressedEvent : public MouseEvent {
 
     int button;
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         ss << "Mouse " << (button ? "right" : "left") << " click";
         return ss.str();
@@ -43,7 +43,7 @@ class MouseButtonReleasedEvent : public MouseEvent {
 
     int button;
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         ss << "Mouse " << (button ? "right" : "left") << " click released";
         return ss.str();

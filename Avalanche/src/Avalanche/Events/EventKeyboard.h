@@ -5,7 +5,7 @@
 namespace AVL {
 class KeyEvent : public Event {
    public:
-    [[nodiscard]] const KeyCode GetKeyCode() const { return m_KeyCode; }
+    const KeyCode GetKeyCode() const { return m_KeyCode; }
     EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
    protected:
@@ -19,9 +19,9 @@ class KeyPressedEvent final : public KeyEvent {
     explicit KeyPressedEvent(const KeyCode keycode, const bool isRepeat = false)
         : KeyEvent(keycode), m_IsRepeat(isRepeat) {}
 
-    [[nodiscard]] inline bool IsRepeat() const { return m_IsRepeat; }
+    inline bool IsRepeat() const { return m_IsRepeat; }
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
             ss << "KeyPressed: Unknown key code (" << m_KeyCode << ") (repeat = " << m_IsRepeat << ")";
@@ -42,7 +42,7 @@ class KeyReleasedEvent final : public KeyEvent {
    public:
     explicit KeyReleasedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
 
-    [[nodiscard]] std::string ToString() const override {
+    std::string ToString() const override {
         std::stringstream ss;
         if (KeyNames.find(m_KeyCode) == KeyNames.end()) {
             ss << "KeyReleased: Unknown key code (" << m_KeyCode << ")";

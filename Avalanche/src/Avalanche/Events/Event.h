@@ -54,17 +54,15 @@ enum EventCategory {
 /* Pure virtual class, will be inherited */
 class AVL_API Event {
    public:
-    [[nodiscard]] virtual int GetCategoryFlags() const = 0;
+    virtual int GetCategoryFlags() const = 0;
 
-    [[nodiscard]] virtual EventType GetType() const = 0;
+    virtual EventType GetType() const = 0;
 
-    [[nodiscard]] virtual const char* GetName() const = 0;
+    virtual const char* GetName() const = 0;
 
-    [[nodiscard]] virtual std::string ToString() const = 0;
+    virtual std::string ToString() const = 0;
 
-    [[nodiscard]] inline bool IsInCategory(const EventCategory& category) const {
-        return GetCategoryFlags() & category;
-    }
+    inline bool IsInCategory(const EventCategory& category) const { return GetCategoryFlags() & category; }
 
     friend std::ostream& operator<<(std::ostream& os, const Event& e) { return os << e.ToString(); }
 };

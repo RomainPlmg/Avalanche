@@ -10,7 +10,7 @@ class EventDispatcher {
 
     ~EventDispatcher();
 
-    [[maybe_unused]] static EventDispatcher* GetInstance();
+    static EventDispatcher* GetInstance();
 
     using Listener = std::function<void(const Event&)>;
 
