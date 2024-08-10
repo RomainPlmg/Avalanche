@@ -31,12 +31,16 @@ void LinuxWindow::Init(const WindowProps& props) {
                                  nullptr, nullptr);
     glfwMakeContextCurrent(m_Handler);
     glfwSetWindowUserPointer(m_Handler, this);
+
+    /* Set callback functions */
     glfwSetFramebufferSizeCallback(m_Handler, framebuffer_size_callback);
     glfwSetKeyCallback(m_Handler, key_callback);
     glfwSetCursorPosCallback(m_Handler, mouse_cursor_pos_callback);
+    glfwSetMouseButtonCallback(m_Handler, mouse_button_callback);
     SetVSync(true);
 
-    AVL_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD. Abort.")
+    AVL_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD. Abort.");
+    AVL_CORE_INFO("OpenGL initialized");
 }
 
 void LinuxWindow::Update() {
@@ -96,5 +100,12 @@ void LinuxWindow::key_callback(GLFWwindow* window, int key, int scancode, int ac
 void LinuxWindow::mouse_cursor_pos_callback(GLFWwindow* window, double xpos, double ypos) {
     MouseMotionEvent event(xpos, ypos);
     EventDispatcher::GetInstance()->Dispatch(event);
+}
+
+void LinuxWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        MouseButtonEvent event(button);
+        EventDispatcher::GetInstance()->Dispatch(event);
+    }
 }
 }  // namespace AVL
