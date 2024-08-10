@@ -1,10 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
-
-#include <GLFW/glfw3.h>
-
 #include "Avalanche/Core/Window.h"
+#include "Platforms/API/OpenGL/OpenGLContext.h"
 
 namespace AVL {
 class LinuxWindow : public Window {
@@ -34,6 +31,7 @@ class LinuxWindow : public Window {
     static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
     GLFWwindow* m_Handler;
+    std::unique_ptr<OpenGLContext> m_Context;
 
     struct WindowData {
         std::string title;

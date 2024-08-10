@@ -29,7 +29,6 @@ void LinuxWindow::Init(const WindowProps& props) {
 
     m_Handler = glfwCreateWindow(static_cast<int>(props.width), static_cast<int>(props.height), props.title.c_str(),
                                  nullptr, nullptr);
-    glfwMakeContextCurrent(m_Handler);
     glfwSetWindowUserPointer(m_Handler, this);
 
     /* Set callback functions */
@@ -39,8 +38,8 @@ void LinuxWindow::Init(const WindowProps& props) {
     glfwSetMouseButtonCallback(m_Handler, mouse_button_callback);
     SetVSync(true);
 
-    AVL_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD. Abort.");
-    AVL_CORE_INFO("OpenGL initialized");
+    m_Context = std::make_unique<OpenGLContext>(m_Handler);
+    m_Context->Init();
 }
 
 void LinuxWindow::Update() {
