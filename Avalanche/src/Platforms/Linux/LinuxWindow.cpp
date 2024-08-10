@@ -103,11 +103,11 @@ void LinuxWindow::mouse_button_callback(GLFWwindow* window, int button, int acti
     MouseEvent* event;
     switch (action) {
         case GLFW_PRESS:
-            event = new MouseButtonPressedEvent(button);
+            event = new MouseButtonPressedEvent(static_cast<MouseButtonCode>(button));
             EventDispatcher::GetInstance()->Dispatch(*event);
             break;
         case GLFW_RELEASE:
-            event = new MouseButtonReleasedEvent(button);
+            event = new MouseButtonReleasedEvent(static_cast<MouseButtonCode>(button));
             EventDispatcher::GetInstance()->Dispatch(*event);
             break;
         default:

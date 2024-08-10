@@ -12,5 +12,6 @@ class AVL_API Input {
 
    public:
     static bool IsKeyPressed(KeyCode keycode) { return m_Instance->IsKeyPressedImpl(keycode); }
+    // static bool Is
 };
 }  // namespace AVL

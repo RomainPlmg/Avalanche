@@ -24,13 +24,13 @@ class MouseMotionEvent : public MouseEvent {
 
 class MouseButtonPressedEvent : public MouseEvent {
    public:
-    MouseButtonPressedEvent(int button) : button(button) {}
+    MouseButtonPressedEvent(MouseButtonCode mouseButtonCode) : buttonCode(mouseButtonCode) {}
 
-    int button;
+    MouseButtonCode buttonCode;
 
     std::string ToString() const override {
         std::stringstream ss;
-        ss << "Mouse " << (button ? "right" : "left") << " click";
+        ss << "MouseButtonPressed: " << MouseButtonNames.at(buttonCode);
         return ss.str();
     }
 
@@ -39,13 +39,13 @@ class MouseButtonPressedEvent : public MouseEvent {
 
 class MouseButtonReleasedEvent : public MouseEvent {
    public:
-    MouseButtonReleasedEvent(int button) : button(button) {}
+    MouseButtonReleasedEvent(MouseButtonCode mouseButtonCode) : buttonCode(mouseButtonCode) {}
 
-    int button;
+    MouseButtonCode buttonCode;
 
     std::string ToString() const override {
         std::stringstream ss;
-        ss << "Mouse " << (button ? "right" : "left") << " click released";
+        ss << "MouseButtonReleased: " << MouseButtonNames.at(buttonCode);
         return ss.str();
     }
 

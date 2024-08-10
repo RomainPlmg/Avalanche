@@ -17,3 +17,4 @@
 
 #include "Avalanche/Core/Core.h"
 #include "Avalanche/Core/KeyCodes.h"
+#include "Avalanche/Core/MouseButtonCodes.h"
