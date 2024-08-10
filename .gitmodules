@@ -4,3 +4,6 @@
 [submodule "Avalanche/vendor/GLFW"]
 	path = Avalanche/vendor/GLFW
 	url = https://github.com/glfw/glfw.git
+[submodule "Avalanche/vendor/GLM"]
+	path = Avalanche/vendor/GLM
+	url = https://github.com/g-truc/glm.git
