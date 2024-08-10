@@ -25,13 +25,13 @@
 #define AVL_DEBUGBREAK raise(SIGTRAP)
 #endif
 #ifdef AVL_ENABLE_ASSERTS
-#define AVL_CORE_ASSERT(x, ...)                             \
-    if (!(x)) {                                             \
-        AVL_CORE_FATAL("Assertion failed {0}, __VA_ARGS__") \
+#define AVL_CORE_ASSERT(x, ...)                              \
+    if (!(x)) {                                              \
+        AVL_CORE_FATAL("Assertion failed: {0}", __VA_ARGS__) \
     }
-#define AVL_ASSERT(x, ...)                             \
-    if (!(x)) {                                        \
-        AVL_FATAL("Assertion failed {0}, __VA_ARGS__") \
+#define AVL_ASSERT(x, ...)                              \
+    if (!(x)) {                                         \
+        AVL_FATAL("Assertion failed: {0}", __VA_ARGS__) \
     }
 #else
 #define AVL_CORE_ASSERT(x, ...)
