@@ -22,11 +22,14 @@ class AVL_API Window {
     virtual void Shutdown() = 0;
     void OnEvent(const Event& event);
 
-    /* Window attributes */
-    [[nodiscard]] virtual uint32_t GetWidth() const = 0;
-    [[nodiscard]] virtual uint32_t GetHeight() const = 0;
-    [[nodiscard]] virtual bool IsVSync() const = 0;
-    [[nodiscard]] virtual bool ShouldClose() const = 0;
+    /* Getters */
+    virtual uint32_t GetWidth() const = 0;
+    virtual uint32_t GetHeight() const = 0;
+    virtual bool IsVSync() const = 0;
+    virtual bool ShouldClose() const = 0;
+    virtual void* GetHandler() const = 0;
+
+    /* Setters */
     virtual void SetVSync(bool enable) = 0;
 
     /* Return pointer on the specific platform window */

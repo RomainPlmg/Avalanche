@@ -12,17 +12,19 @@ class LinuxWindow : public Window {
     explicit LinuxWindow(const WindowProps& props);
     ~LinuxWindow() override = default;
 
-    void Update() override;
-    void Close() override;
+    virtual void Update() override;
+    virtual void Close() override;
+    virtual void Shutdown() override;
 
-    /* Window attributes */
-    [[nodiscard]] uint32_t GetWidth() const override { return m_WindowData.width; }
-    [[nodiscard]] uint32_t GetHeight() const override { return m_WindowData.height; }
-    [[nodiscard]] bool IsVSync() const override { return m_WindowData.vsync; }
-    [[nodiscard]] bool ShouldClose() const override;
-    void SetVSync(bool enable) override;
+    /* Getters */
+    virtual uint32_t GetWidth() const override { return m_WindowData.width; }
+    virtual uint32_t GetHeight() const override { return m_WindowData.height; }
+    virtual bool IsVSync() const override { return m_WindowData.vsync; }
+    virtual bool ShouldClose() const override { return glfwWindowShouldClose(m_Handler); }
+    virtual void* GetHandler() const override { return m_Handler; }
 
-    void Shutdown() override;
+    /* Setters */
+    virtual void SetVSync(bool enable) override;
 
    private:
     void Init(const WindowProps& props);
@@ -32,6 +34,7 @@ class LinuxWindow : public Window {
     static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
     GLFWwindow* m_Handler;
+
     struct WindowData {
         std::string title;
         uint32_t width;

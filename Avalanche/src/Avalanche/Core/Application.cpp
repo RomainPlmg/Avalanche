@@ -1,11 +1,16 @@
 #include "Application.h"
 #include "Avalanche/Events/Event.h"
+#include "Input.h"
 #include "Log.h"
 
 namespace AVL {
+Application* Application::m_Instance = nullptr;
+
 Application::Application() : m_Window(nullptr) {
     m_Window = std::unique_ptr<Window>(Window::Create());
     EventDispatcher::GetInstance()->Subscribe(EventCategory::EventCategoryInput, AVL_BIND_EVENT_FN(OnEvent));
+    AVL_CORE_ASSERT(!m_Instance, "Application already exists.");
+    m_Instance = this;
 }
 
 void Application::Run() {

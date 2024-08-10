@@ -52,10 +52,6 @@ void LinuxWindow::Close() {
     glfwSetWindowShouldClose(m_Handler, true);
 }
 
-bool LinuxWindow::ShouldClose() const {
-    return glfwWindowShouldClose(m_Handler);
-}
-
 void LinuxWindow::Shutdown() {
     glfwDestroyWindow(m_Handler);
     glfwTerminate();
