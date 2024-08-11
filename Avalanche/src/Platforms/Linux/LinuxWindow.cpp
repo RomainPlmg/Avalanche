@@ -36,6 +36,7 @@ void LinuxWindow::Init(const WindowProps& props) {
     glfwSetKeyCallback(m_Handler, key_callback);
     glfwSetCursorPosCallback(m_Handler, mouse_cursor_pos_callback);
     glfwSetMouseButtonCallback(m_Handler, mouse_button_callback);
+    glfwSetWindowPosCallback(m_Handler, window_pos_callback);
     SetVSync(true);
 
     m_Context = std::make_unique<OpenGLContext>(m_Handler);
@@ -49,6 +50,15 @@ void LinuxWindow::Update() {
 
 void LinuxWindow::Close() {
     glfwSetWindowShouldClose(m_Handler, true);
+}
+
+bool LinuxWindow::ShouldClose() {
+    if (glfwWindowShouldClose(m_Handler)) {
+        WindowCloseEvent event;
+        EventDispatcher::GetInstance()->Dispatch(event);
+        return 1;
+    }
+    return 0;
 }
 
 void LinuxWindow::Shutdown() {
@@ -69,7 +79,7 @@ void LinuxWindow::SetVSync(bool enable) {
 void LinuxWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     auto* self = static_cast<LinuxWindow*>(glfwGetWindowUserPointer(window));
     WindowResizeEvent event(width, height);
-    // self->m_Dispatcher->Dispatch(event);
+    EventDispatcher::GetInstance()->Dispatch(event);
 }
 
 void LinuxWindow::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -113,5 +123,10 @@ void LinuxWindow::mouse_button_callback(GLFWwindow* window, int button, int acti
             break;
     }
     delete event;
+}
+
+void LinuxWindow::window_pos_callback(GLFWwindow* window, int xpos, int ypos) {
+    WindowMovedEvent event(xpos, ypos);
+    EventDispatcher::GetInstance()->Dispatch(event);
 }
 }  // namespace AVL

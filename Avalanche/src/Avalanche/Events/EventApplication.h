@@ -32,4 +32,19 @@ class WindowCloseEvent final : public ApplicationEvent {
         return ss.str();
     }
 };
+
+class WindowMovedEvent final : public ApplicationEvent {
+   public:
+    int xpos, ypos;
+
+    WindowMovedEvent(int xpos, int ypos) : xpos(xpos), ypos(ypos) {}
+
+    EVENT_CLASS_TYPE(EventType::WindowMoved)
+
+    std::string ToString() const override {
+        std::stringstream ss;
+        ss << "Window moved at: x=" << xpos << " | y=" << ypos;
+        return ss.str();
+    }
+};
 }  // namespace AVL

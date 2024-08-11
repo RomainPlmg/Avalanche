@@ -19,6 +19,7 @@ class AVL_API Window {
 
     virtual void Update() = 0;
     virtual void Close() = 0;
+    virtual bool ShouldClose() = 0;
     virtual void Shutdown() = 0;
     void OnEvent(const Event& event);
 
@@ -26,7 +27,6 @@ class AVL_API Window {
     virtual uint32_t GetWidth() const = 0;
     virtual uint32_t GetHeight() const = 0;
     virtual bool IsVSync() const = 0;
-    virtual bool ShouldClose() const = 0;
     virtual void* GetHandler() const = 0;
 
     /* Setters */
