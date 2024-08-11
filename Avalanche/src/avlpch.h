@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <format>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <map>
