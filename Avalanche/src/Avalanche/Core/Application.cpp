@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Input.h"
 #include "Log.h"
+#include "Platforms/API/OpenGL/OpenGLContext.h"
 
 namespace AVL {
 Application* Application::m_Instance = nullptr;
@@ -11,14 +12,39 @@ Application::Application() : m_Window(nullptr) {
     m_Window = std::unique_ptr<Window>(Window::Create());
     m_LayerStack = std::make_unique<LayerStack>();
 
-    EventDispatcher::GetInstance()->Subscribe(EventCategory::EventCategoryInput, AVL_BIND_EVENT_FN(OnEvent));
+    EventDispatcher::GetInstance()->Subscribe(EventCategory::EventCategoryAll, AVL_BIND_EVENT_FN(OnEvent));
 }
 
 void Application::Run() {
+    GLuint vertexArray;
+    GLuint vertexBuffer;
+    GLuint indexBuffer;
+
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
+
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+
+    float vertices[] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f};
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+    glGenBuffers(1, &indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+
+    GLuint indices[] = {0, 1, 2};
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     while (!m_Window->ShouldClose()) {
+        glBindVertexArray(vertexArray);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
         m_Window->Update();
     }
-    EventDispatcher::GetInstance()->Unsubscribe(EventCategory::EventCategoryInput, AVL_BIND_EVENT_FN(OnEvent));
+    EventDispatcher::GetInstance()->Unsubscribe(EventCategory::EventCategoryAll, AVL_BIND_EVENT_FN(OnEvent));
     m_Window->Shutdown();
 }
 
