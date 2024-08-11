@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include "KeyCodes.h"
 
 namespace AVL {
@@ -9,9 +10,14 @@ class AVL_API Input {
 
    protected:
     virtual bool IsKeyPressedImpl(KeyCode keycode) = 0;
+    virtual bool IsMouseButtonPressedImpl(MouseButtonCode button) = 0;
+    virtual glm::vec2 GetMousePositionImpl() = 0;
 
    public:
-    static bool IsKeyPressed(KeyCode keycode) { return m_Instance->IsKeyPressedImpl(keycode); }
-    // static bool Is
+    static inline bool IsKeyPressed(KeyCode keycode) { return m_Instance->IsKeyPressedImpl(keycode); }
+    static inline bool IsMouseButtonPressed(MouseButtonCode button) {
+        return m_Instance->IsMouseButtonPressedImpl(button);
+    }
+    static inline glm::vec2 GetMousePosition() { return m_Instance->GetMousePositionImpl(); }
 };
 }  // namespace AVL
