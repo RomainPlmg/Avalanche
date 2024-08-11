@@ -1,5 +1,7 @@
 project(Avalanche LANGUAGES C CXX)
 
+add_compile_definitions(AVL_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/")
+
 if (WIN32)
     add_definitions(-DAVL_PLATFORM_WINDOWS)
 elseif (UNIX)
@@ -33,9 +35,10 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/Avalanche/vendor/GLFW)
 add_library(Avalanche SHARED ${SRC})
 target_precompile_headers(Avalanche PUBLIC src/avlpch.h)
 target_include_directories(Avalanche PUBLIC
-        ${CMAKE_SOURCE_DIR}/Avalanche/src/
-        ${CMAKE_SOURCE_DIR}/Avalanche/vendor/spdlog/include/
-        ${CMAKE_SOURCE_DIR}/Avalanche/vendor/GLFW/include/
-        ${CMAKE_SOURCE_DIR}/Avalanche/vendor/glad/include/
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include/
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include/
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad/include/
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/STB/
 )
 target_link_libraries(Avalanche PRIVATE ${OPENGL_LIBRARY} glfw glad glm::glm)
