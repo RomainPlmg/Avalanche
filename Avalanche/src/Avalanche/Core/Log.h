@@ -14,6 +14,7 @@ class AVL_API Log {
 };
 }  // namespace AVL
 
+#ifdef AVL_DEBUG
 // Core log macros
 #define AVL_CORE_TRACE(...) ::AVL::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define AVL_CORE_INFO(...) ::AVL::Log::GetCoreLogger()->info(__VA_ARGS__)
@@ -35,3 +36,33 @@ class AVL_API Log {
         ::AVL::Log::GetClientLogger()->critical(__VA_ARGS__); \
         AVL_DEBUGBREAK;                                       \
     }
+
+#ifdef AVL_ENABLE_ASSERTS
+#define AVL_CORE_ASSERT(x, ...)                              \
+    if (!(x)) {                                              \
+        AVL_CORE_FATAL("Assertion failed: {0}", __VA_ARGS__) \
+    }
+#define AVL_ASSERT(x, ...)                              \
+    if (!(x)) {                                         \
+        AVL_FATAL("Assertion failed: {0}", __VA_ARGS__) \
+    }
+#else
+#define AVL_CORE_ASSERT(x, ...)
+#define AVL_ASSERT(x, ...)
+#endif
+#else
+#define AVL_CORE_TRACE(...)
+#define AVL_CORE_INFO(...)
+#define AVL_CORE_WARN(...)
+#define AVL_CORE_ERROR(...)
+#define AVL_CORE_FATAL(...)
+
+#define AVL_TRACE(...)
+#define AVL_INFO(...)
+#define AVL_WARN(...)
+#define AVL_ERROR(...)
+#define AVL_FATAL(...)
+
+#define AVL_CORE_ASSERT(x, ...)
+#define AVL_ASSERT(x, ...)
+#endif
