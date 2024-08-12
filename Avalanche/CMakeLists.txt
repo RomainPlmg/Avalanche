@@ -1,7 +1,5 @@
 project(Avalanche LANGUAGES C CXX)
 
-add_compile_definitions(AVL_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/")
-
 if (WIN32)
     add_definitions(-DAVL_PLATFORM_WINDOWS)
 elseif (UNIX)
