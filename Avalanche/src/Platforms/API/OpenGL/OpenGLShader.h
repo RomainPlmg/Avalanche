@@ -6,6 +6,9 @@
 namespace AVL {
 class OpenGLShader : public Shader {
    public:
+    OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+    ~OpenGLShader();
+
     virtual inline void Bind() const override { glUseProgram(m_RendererID); }
     virtual inline void Unbind() const override { glUseProgram(0); }
 
@@ -19,7 +22,8 @@ class OpenGLShader : public Shader {
     virtual void SetUniformMat4(const std::string& name, const glm::mat4& value) const override;
 
    private:
-    GLuint m_RendererID;
-    std::string m_ProgramName;
+    static std::string ParseFile(const std::string& filePath);
+    static uint32_t CompileShader(uint32_t type, const std::string& source);
+    uint32_t m_RendererID;
 };
 }  // namespace AVL

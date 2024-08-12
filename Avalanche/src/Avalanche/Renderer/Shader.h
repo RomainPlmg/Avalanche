@@ -4,17 +4,9 @@
 
 namespace AVL {
 
-enum class ShaderType {
-    VertexShader,
-    FragmentShader,
-    GeometryShader,
-    ComputeShader,
-    TessellationControlShader,
-    TessellationEvaluationShader
-};
-
 class AVL_API Shader {
    public:
+    Shader(const std::string name) : m_ProgramName(name) {}
     virtual ~Shader() = default;
 
     virtual void Bind() const = 0;
@@ -29,6 +21,23 @@ class AVL_API Shader {
     virtual void SetUniformFloat4(const std::string& name, const glm::vec4& value) const = 0;
     virtual void SetUniformMat4(const std::string& name, const glm::mat4& value) const = 0;
 
+    inline const std::string GetProgramName() { return m_ProgramName; };
+
+    static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexPath,
+                                          const std::string& fragmentPath);
+
+   protected:
+    std::string m_ProgramName;
+};
+
+class ShaderLibrary {
+   public:
+    void Add(const std::shared_ptr<Shader>& shader);
+    std::shared_ptr<Shader> Load(const std::string& name, const std::string& vertexPath,
+                                 const std::string& fragmentPath);
+    inline bool Exists(const std::string& name) { return m_Shaders.find(name) != m_Shaders.end(); }
+
    private:
+    std::unordered_map<std::string, std::shared_ptr<Shader>> m_Shaders;
 };
 }  // namespace AVL

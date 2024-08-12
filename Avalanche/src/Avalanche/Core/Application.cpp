@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Avalanche/Renderer/Shader.h"
 #include "Input.h"
 #include "Log.h"
 #include "Platforms/API/OpenGL/OpenGLContext.h"
@@ -38,6 +39,10 @@ void Application::Run() {
 
     GLuint indices[] = {0, 1, 2};
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    auto shader = Shader::Create("test", PROJECT_SOURCE_DIR "assets/shaders/vertex.glsl",
+                                 PROJECT_SOURCE_DIR "assets/shaders/fragment.glsl");
+    shader->Bind();
 
     while (!m_Window->ShouldClose()) {
         glBindVertexArray(vertexArray);
