@@ -1,7 +1,11 @@
 #pragma once
 
 #include "Avalanche/Core/Window.h"
-#include "Platforms/API/OpenGL/OpenGLContext.h"
+#include "Avalanche/Renderer/GraphicsContext.h"
+
+#include <glad/glad.h>
+// Include glad before glfw
+#include <GLFW/glfw3.h>
 
 namespace AVL {
 class LinuxWindow : public Window {
@@ -15,10 +19,10 @@ class LinuxWindow : public Window {
     virtual void Shutdown() override;
 
     /* Getters */
-    virtual uint32_t GetWidth() const override { return m_WindowData.width; }
-    virtual uint32_t GetHeight() const override { return m_WindowData.height; }
-    virtual bool IsVSync() const override { return m_WindowData.vsync; }
-    virtual void* GetHandler() const override { return m_Handler; }
+    virtual inline uint32_t GetWidth() const override { return m_WindowData.width; }
+    virtual inline uint32_t GetHeight() const override { return m_WindowData.height; }
+    virtual inline bool IsVSync() const override { return m_WindowData.vsync; }
+    virtual inline void* GetHandler() const override { return m_Handler; }
 
     /* Setters */
     virtual void SetVSync(bool enable) override;
@@ -32,7 +36,7 @@ class LinuxWindow : public Window {
     static void window_pos_callback(GLFWwindow* window, int xpos, int ypos);
 
     GLFWwindow* m_Handler;
-    std::unique_ptr<OpenGLContext> m_Context;
+    std::unique_ptr<GraphicsContext> m_Context;
 
     struct WindowData {
         std::string title;

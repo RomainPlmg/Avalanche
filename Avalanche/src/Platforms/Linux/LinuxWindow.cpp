@@ -39,7 +39,7 @@ void LinuxWindow::Init(const WindowProps& props) {
     glfwSetWindowPosCallback(m_Handler, window_pos_callback);
     SetVSync(true);
 
-    m_Context = std::make_unique<OpenGLContext>(m_Handler);
+    m_Context = GraphicsContext::Create(m_Handler);
     m_Context->Init();
 }
 
