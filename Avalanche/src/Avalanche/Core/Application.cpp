@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Avalanche/Renderer/Renderer.h"
 #include "Avalanche/Renderer/Shader.h"
+#include "Avalanche/Renderer/VertexArray.h"
 #include "Input.h"
 #include "Log.h"
 
@@ -14,32 +15,23 @@ Application::Application() : m_Window(nullptr) {
     Renderer::Init();
     m_LayerStack = std::make_unique<LayerStack>();
 
-    EventDispatcher::GetInstance()->Subscribe(EventCategory::EventCategoryAll, AVL_BIND_EVENT_FN(OnEvent));
+    EventDispatcher::GetInstance()->Subscribe(EventCategory::EventCategoryKeyboard, AVL_BIND_EVENT_FN(OnEvent));
 }
 
 void Application::Run() {
-    GLuint vertexArray;
-    GLuint vertexBuffer;
-    GLuint indexBuffer;
-
-    glGenVertexArrays(1, &vertexArray);
-    glBindVertexArray(vertexArray);
-
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    auto va = VertexArray::Create();
 
     float vertices[] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f};
+    uint32_t indices[] = {0, 1, 2};
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    auto vb = VertexBuffer::Create(vertices, sizeof(vertices));
+    auto ib = IndexBuffer::Create(indices, 3);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    BufferLayout layout({BufferElement(ShaderDataType::Float3, "vertices")});
+    vb->SetLayout(layout);
 
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-    GLuint indices[] = {0, 1, 2};
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    va->AddVertexBuffer(vb);
+    va->UpdateIndexBuffer(ib);
 
     auto shader = Shader::Create("test", PROJECT_SOURCE_DIR "assets/shaders/vertex.glsl",
                                  PROJECT_SOURCE_DIR "assets/shaders/fragment.glsl");
@@ -48,12 +40,11 @@ void Application::Run() {
     Renderer::SetClearColor(Color(0.2f, 0.2f, 0.2f, 1.0f));
 
     while (!m_Window->ShouldClose()) {
-        glBindVertexArray(vertexArray);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
         m_Window->Update();
         Renderer::Clear();
     }
-    EventDispatcher::GetInstance()->Unsubscribe(EventCategory::EventCategoryAll, AVL_BIND_EVENT_FN(OnEvent));
+    EventDispatcher::GetInstance()->Unsubscribe(EventCategory::EventCategoryKeyboard, AVL_BIND_EVENT_FN(OnEvent));
     m_Window->Shutdown();
 }
 

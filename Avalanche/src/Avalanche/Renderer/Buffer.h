@@ -58,14 +58,14 @@ struct BufferElement {
     std::string Name;
     ShaderDataType Type;
     uint32_t Size;
-    uint32_t Offset;
+    uint32_t Offset = 0;
     bool Normalized;
 
     BufferElement() = default;
     BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
-        : Type(type), Name(name), Normalized(normalized) {}
+        : Name(name), Type(type), Size(SizeOfShaderDateType(type)), Offset(0), Normalized(normalized) {}
 
-    uint32_t GetComponentCount() {
+    uint32_t GetComponentCount() const {
         switch (Type) {
             case ShaderDataType::None:
                 return 0;
@@ -94,6 +94,7 @@ struct BufferElement {
             default:
                 break;
         }
+
         AVL_CORE_ERROR("Unkmown shader data type");
         return 0;
     }
@@ -103,11 +104,14 @@ struct BufferElement {
 class BufferLayout {
    public:
     BufferLayout() = default;
-    BufferLayout(std::initializer_list<BufferElement> elements) : m_Elements(elements) {}
+    BufferLayout(std::initializer_list<BufferElement> elements);
+
+    inline uint32_t GetStride() const { return m_Stride; }
+    inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
 
    private:
     std::vector<BufferElement> m_Elements;
-    uint32_t m_Stride = 0;
+    uint32_t m_Stride;
 };
 
 /* Vertex buffer to store vertex data */
