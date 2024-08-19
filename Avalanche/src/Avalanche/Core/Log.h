@@ -7,10 +7,12 @@ class AVL_API Log {
 
     inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return m_CoreLogger; }
     inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return m_ClientLogger; }
+    inline static const bool IsInitialized() { return m_Initialized; }
 
    private:
     static std::shared_ptr<spdlog::logger> m_CoreLogger;
     static std::shared_ptr<spdlog::logger> m_ClientLogger;
+    static bool m_Initialized;
 };
 }  // namespace AVL
 
